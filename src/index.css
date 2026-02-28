@@ -143,3 +143,38 @@ h3 {
 .animate-fade {
   animation: fadeIn 0.6s ease-out forwards;
 }
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-border {
+  0% {
+    border-color: var(--primary);
+    opacity: 0.5;
+  }
+
+  50% {
+    border-color: var(--accent);
+    opacity: 1;
+  }
+
+  100% {
+    border-color: var(--primary);
+    opacity: 0.5;
+  }
+}
+
+.upload-pulse {
+  animation: pulse-border 2s infinite ease-in-out;
+}
