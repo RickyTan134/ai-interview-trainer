@@ -93,7 +93,9 @@ Listening Animation: Dynamic pulse effects provide visual feedback during active
 Granular Question Feedback: Each answer receives a score (1-10), highlight of key strengths, and specific suggestions for improvement.
 Overall Session Summary: A high-level average score and a punchy AI "Verdict" providing a summary of overall readiness.
 Career Match Leaderboard: Suggests top 3 suitable career paths using a leaderboard-style UI with ranking and match scores.
+
 🛠️ Technology Stack & Frameworks
+
 Frontend (User Interface)
 React (v19): The core framework for managing the single-page application (SPA) state and components.
 Framer Motion: Powering all smooth transitions, card animations, and progress bar effects.
@@ -101,6 +103,7 @@ Lucide React: Premium iconography used throughout the profile and results screen
 Axios: Handling asynchronous communications with the backend API.
 Vanilla CSS: Custom styling with a premium Glassmorphism aesthetic, utilizing HSL colors and sleek gradients.
 Web Speech API: Utilizing the native browser SpeechRecognition interface for real-time voice-to-text.
+
 Backend (Server Logic)
 Node.js & Express: A fast, minimal server environment for handling AI prompts and file processing.
 Google Gemini API (gemini-flash-latest): The core AI engine used for resume parsing, question generation, and performance evaluation.
@@ -108,9 +111,9 @@ Multer: Middleware for managing multi-part form data and file uploads.
 PDF-Parse & Mammoth: Binary parsing libraries used to extract raw text from PDF and DOCX files respectively.
 MySQL & mysql2: Database integration for persistent storage of user profiles or session history (optional/extensible).
 Dotenv: Secure management of environment variables and API keys.
+
 🎨 Design Philosophy
 The application follows a Dark Mode Premium design language:
-
 Visual Hierarchy: Uses depth and blur (glassmorphism) to focus user attention on the primary task.
 Micro-Animations: Subtle hover effects and pulse animations provide a high-end, responsive feel.
 Responsive Layout: Designed to work seamlessly across desktops and larger tablets.
