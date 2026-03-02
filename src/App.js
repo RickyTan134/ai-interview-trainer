@@ -178,7 +178,7 @@ const ProfileForm = ({ profile, setProfile, handleProfileSubmit, loading, setVie
         </div>
 
         <h3 style={{ margin: '32px 0 16px', color: 'var(--primary)', borderBottom: '1px solid var(--glass-border)', paddingBottom: '8px' }}>Personal Details</h3>
-        <div className="grid" style={{ display: 'grid', gridTemplateColumns: '1fr 120px 180px', gap: '24px' }}>
+        <div className="grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 120px 180px', gap: '24px' }}>
           <div className="input-group">
             <label><User size={16} /> Full Name</label>
             <input
@@ -187,6 +187,17 @@ const ProfileForm = ({ profile, setProfile, handleProfileSubmit, loading, setVie
               required
               value={profile.name}
               onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+            />
+          </div>
+          <div className="input-group">
+            <label><Mail size={16} /> Email Address</label>
+            <input
+              type="email"
+              className="input-field"
+              placeholder="your@email.com"
+              required
+              value={profile.email}
+              onChange={(e) => setProfile({ ...profile, email: e.target.value })}
             />
           </div>
           <div className="input-group">
@@ -415,12 +426,12 @@ const InterviewRoom = ({ questions, currentQuestionIndex, isListening, toggleLis
             <button
               className={`btn-secondary ${isListening ? 'listening' : ''}`}
               onClick={toggleListening}
-              disabled={hasFinishedRecording}
+              disabled={hasFinishedRecording || (isListening && !transcript.trim())}
               style={{
                 padding: '16px 32px',
                 borderColor: isListening ? 'var(--secondary)' : 'var(--glass-border)',
-                opacity: hasFinishedRecording ? 0.5 : 1,
-                cursor: hasFinishedRecording ? 'not-allowed' : 'pointer'
+                opacity: (hasFinishedRecording || (isListening && !transcript.trim())) ? 0.5 : 1,
+                cursor: (hasFinishedRecording || (isListening && !transcript.trim())) ? 'not-allowed' : 'pointer'
               }}
             >
               {isListening ? <><MicOff size={20} /> Stop Recording</> : <><Mic size={20} /> {hasFinishedRecording ? 'Recording Finished' : 'Start Recording'}</>}
@@ -660,7 +671,7 @@ const Footer = () => (
 function App() {
   const [view, setView] = useState('landing'); // landing, profile, instructions, interview, results
   const [profile, setProfile] = useState({
-    position: '', desiredCompany: '', name: '', age: '', gender: '', experience: '', education: '', projects: '', honorsAwards: '', skills: '', applicationReason: ''
+    position: '', desiredCompany: '', name: '', email: '', age: '', gender: '', experience: '', education: '', projects: '', honorsAwards: '', skills: '', applicationReason: ''
   });
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -675,6 +686,7 @@ function App() {
   const [isReading, setIsReading] = useState(false);
   const [readingTimer, setReadingTimer] = useState(15);
   const [hasFinishedRecording, setHasFinishedRecording] = useState(false);
+  const [profileId, setProfileId] = useState(null);
 
   const recognitionRef = useRef(null);
   const timerRef = useRef(null);
@@ -821,6 +833,7 @@ function App() {
     try {
       const resp = await axios.post(`${API_BASE_URL}/analyze-profile`, profile);
       setQuestions(resp.data.questions);
+      setProfileId(resp.data.profileId);
       setView('instructions');
     } catch (err) {
       console.error(err);
@@ -875,7 +888,8 @@ function App() {
     try {
       const resp = await axios.post(`${API_BASE_URL}/overall-summary`, {
         feedbacks: currentFeedbacks,
-        profile
+        profile,
+        profileId
       });
       setOverallResult(resp.data);
     } catch (err) { console.error("Summary Error:", err); }
